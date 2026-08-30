@@ -7,13 +7,16 @@ import {
 } from "../net/plots";
 import { getUserId } from "../net/auth";
 import { isTyping } from "../movement/input";
+import { PLOT_CLAIM_RANGE } from "@startup-village/shared";
 
 /**
  * Walk-up-and-press-E claiming. Unsigned players can walk and look but
  * cannot claim. Persistence is POST /plots/:id/claim.
  */
 
-export const CLAIM_RANGE = 2.2;
+// Derived from the fixed plot footprint (layout.ts) rather than the old
+// scatter spacing, so the trigger tracks the authored layout.
+export const CLAIM_RANGE = PLOT_CLAIM_RANGE;
 const FLASH_MS = 1600;
 
 export interface PlotInteraction {

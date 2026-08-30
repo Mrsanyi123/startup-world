@@ -61,7 +61,9 @@ function createSurfaceTexture(): THREE.CanvasTexture {
   }
 
   // Continents: blobby clusters of overlapping discs from a random walk.
-  // Each continent is drawn twice — a wider sand fringe, then grass on top.
+  // Each continent is drawn as a wide sand fringe, then grass on top. Both
+  // passes are blurred so the sand→grass and grass→ocean transitions read as
+  // soft coastlines instead of hard paint-bucket edges.
   const grassTones = ["#8fbf68", "#9cc973", "#84b660", "#a6cf7f"];
   const continentCount = 13;
   interface Disc { x: number; y: number; r: number; }
@@ -79,12 +81,21 @@ function createSurfaceTexture(): THREE.CanvasTexture {
       y += (rand() - 0.5) * r * 1.2;
       r *= 0.82 + rand() * 0.22;
     }
+    // Sand fringe — softly blurred so the coastline melts into the ocean.
+    ctx.save();
+    ctx.filter = "blur(9px)";
     ctx.fillStyle = "#e7d8a4";
-    for (const d of discs) wrapCircle(ctx, d.x, d.y, d.r * 1.35);
+    for (const d of discs) wrapCircle(ctx, d.x, d.y, d.r * 1.4);
+    ctx.restore();
+    // Grass — a gentler blur keeps the grass/sand seam soft without smearing
+    // the whole landmass.
+    ctx.save();
+    ctx.filter = "blur(5px)";
     for (const d of discs) {
       ctx.fillStyle = grassTones[Math.floor(rand() * grassTones.length)];
       wrapCircle(ctx, d.x, d.y, d.r);
     }
+    ctx.restore();
     landDiscs.push(...discs);
   }
 

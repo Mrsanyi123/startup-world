@@ -18,6 +18,19 @@ export {
   plotLayout,
 } from "./plots";
 
+export {
+  LAYOUT_RADIUS,
+  PLOT_FOOTPRINT_RADIUS,
+  ROAD_HALF_WIDTH,
+  PLOT_CLAIM_RANGE,
+  PLOT_POSITIONS,
+  ROAD_SEGMENTS,
+} from "./layout";
+export type { RoadSegment } from "./layout";
+
+export { ASSET_MANIFEST } from "./assetManifest";
+export type { AssetEntry, AssetKey, Pivot } from "./assetManifest";
+
 export { HOUSE_TIERS, tierForMrr } from "./houseTiers";
 
 export { DEMO_PLOTS, RESERVED_PLOT_IDS } from "./demoPlots";
