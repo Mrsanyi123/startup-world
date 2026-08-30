@@ -1,0 +1,20 @@
+{
+  "name": "client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build"
+  },
+  "dependencies": {
+    "@clerk/clerk-js": "^5.101.0",
+    "@startup-village/shared": "workspace:*",
+    "socket.io-client": "^4.8.3",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.180.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}
