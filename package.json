@@ -1,0 +1,13 @@
+{
+  "name": "startup-village",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter client --filter server --parallel dev",
+    "build": "pnpm --filter shared --filter client --filter server build",
+    "test": "pnpm --filter server test",
+    "db:migrate": "pnpm --filter server db:migrate"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}
