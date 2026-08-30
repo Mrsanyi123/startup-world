@@ -1,0 +1,278 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0e14;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+#plot-hint {
+  position: fixed;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: #fff7ea;
+  background: rgba(20, 26, 34, 0.72);
+  padding: 8px 16px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+#plot-hint.visible {
+  opacity: 1;
+}
+
+#hud-brand {
+  position: fixed;
+  top: 16px;
+  left: 18px;
+  z-index: 6;
+  color: #fff7ea;
+  pointer-events: none;
+  text-shadow: 0 1px 8px rgba(10, 14, 20, 0.55);
+}
+
+#hud-brand strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+#hud-brand span {
+  font-size: 11px;
+  opacity: 0.72;
+}
+
+#hud-auth {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#hud-auth .who {
+  font-size: 12px;
+  color: #fff7ea;
+  opacity: 0.85;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hud-auth .demo {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff7ea;
+  background: rgba(90, 120, 70, 0.72);
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+
+#hud-auth button,
+#hud-plot-card button {
+  font: inherit;
+  font-size: 12px;
+  color: #fff7ea;
+  background: rgba(20, 26, 34, 0.72);
+  border: 1px solid rgba(255, 247, 234, 0.18);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+#hud-auth button:disabled,
+#hud-plot-card button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#hud-error {
+  position: fixed;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  max-width: min(480px, 90vw);
+  font-size: 12px;
+  color: #fff7ea;
+  background: rgba(80, 28, 28, 0.82);
+  padding: 8px 14px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+#hud-error.visible {
+  opacity: 1;
+}
+
+#hud-plot-card {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 6;
+  width: 220px;
+  color: #fff7ea;
+  background: rgba(20, 26, 34, 0.78);
+  border: 1px solid rgba(255, 247, 234, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: none;
+}
+
+#hud-plot-card.visible {
+  display: block;
+}
+
+#hud-plot-card .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+#hud-plot-card .tier {
+  font-size: 16px;
+  font-weight: 650;
+  margin: 2px 0 4px;
+  text-transform: capitalize;
+}
+
+#hud-plot-card .mrr {
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+#hud-plot-card .toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#hud-plot-card .connect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+#hud-plot-card .connect span {
+  font-size: 10px;
+  opacity: 0.55;
+  width: 100%;
+}
+
+#hud-plot-card .disconnected,
+.plot-nameplate .disconnected {
+  font-size: 11px;
+  color: #f0c9a0;
+}
+
+#hud-banner {
+  position: fixed;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  max-width: min(480px, 90vw);
+  font-size: 12px;
+  color: #fff7ea;
+  background: rgba(28, 64, 40, 0.86);
+  padding: 8px 14px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+#hud-banner.visible {
+  opacity: 1;
+}
+
+#nameplates {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.plot-nameplate {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  color: #fff7ea;
+  background: rgba(20, 26, 34, 0.72);
+  padding: 4px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.plot-nameplate .mrr {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+#player-nameplates {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.player-nameplate {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 11px;
+  color: #fff7ea;
+  background: rgba(20, 26, 34, 0.72);
+  padding: 3px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.cl-rootBox,
+.cl-modalBackdrop,
+[data-clerk-component] {
+  z-index: 20;
+}
