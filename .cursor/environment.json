@@ -1,0 +1,15 @@
+{
+  "name": "Startup Village",
+  "install": "bash .cursor/install.sh",
+  "terminals": [
+    {
+      "name": "dev",
+      "description": "Client (Vite, http://localhost:5173) + server (Fastify, http://localhost:3001) in demo mode.",
+      "command": "bash -lc 'export NVM_DIR=\"${NVM_DIR:-$HOME/.nvm}\"; . \"$NVM_DIR/nvm.sh\"; nvm use 24 >/dev/null; exec pnpm dev'"
+    }
+  ],
+  "ports": [
+    { "name": "client", "port": 5173 },
+    { "name": "server", "port": 3001 }
+  ]
+}

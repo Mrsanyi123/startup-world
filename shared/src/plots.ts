@@ -1,14 +1,16 @@
 import type { Vec3 } from "./types";
+import { PLOT_POSITIONS } from "./layout";
 
 /**
  * Shared planet layout. Client and server both import this so plot markers
  * and the Postgres seed cannot drift.
  *
- * Fibonacci sphere: N points spread evenly over the sphere with zero
- * randomness. Independent random x/y/z would cluster at the poles.
+ * Plot positions are a FIXED, hand-authored list (see layout.ts / Prompt 04b
+ * step 5) designed together with the roads so nothing overlaps. The old
+ * Fibonacci-sphere helper is retained only for incidental sampling.
  */
 export const PLANET_RADIUS = 20;
-export const PLOT_COUNT = 32;
+export const PLOT_COUNT = PLOT_POSITIONS.length;
 
 export function plotId(index: number): string {
   return `plot-${index}`;
@@ -30,12 +32,14 @@ export function fibonacciSpherePoint(
   };
 }
 
-export function plotLayout(
-  count: number = PLOT_COUNT,
-  radius: number = PLANET_RADIUS,
-): { id: string; position: Vec3 }[] {
-  return Array.from({ length: count }, (_, i) => ({
+/**
+ * The canonical plot list: fixed authored positions (layout.ts), one per id
+ * `plot-0` … `plot-{N-1}`. Used by the client renderer, the demo store, and
+ * the Postgres seed alike.
+ */
+export function plotLayout(): { id: string; position: Vec3 }[] {
+  return PLOT_POSITIONS.map((position, i) => ({
     id: plotId(i),
-    position: fibonacciSpherePoint(i, count, radius),
+    position: { x: position.x, y: position.y, z: position.z },
   }));
 }

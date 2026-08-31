@@ -20,7 +20,8 @@ import {
 } from "./net/socket";
 import { createPlotMarkers } from "./world/plotMarkers";
 import { createHouses } from "./world/houses";
-import { createCity } from "./world/city";
+import { createRoads } from "./world/roads";
+import { createFences } from "./world/fences";
 import { createNameplates } from "./world/nameplates";
 import { createRemotes } from "./world/remotes";
 import { createPlotInteraction } from "./interaction/plots";
@@ -89,7 +90,9 @@ const plotMarkers = createPlotMarkers();
 scene.add(plotMarkers.group);
 const houses = createHouses();
 scene.add(houses.group);
-scene.add(createCity());
+scene.add(createRoads());
+const fences = createFences();
+scene.add(fences.group);
 const nameplates = createNameplates();
 const remotes = createRemotes();
 scene.add(remotes.group);
@@ -100,6 +103,7 @@ function syncWorld(): void {
   const plots = listPlots();
   plotMarkers.sync(plots);
   houses.sync(plots);
+  fences.sync(plots);
   nameplates.sync(plots);
   hud.sync();
 }

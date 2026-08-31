@@ -1,7 +1,20 @@
 import * as THREE from "three";
 import { orientOnSurface } from "./surface";
 import type { WorldPlot } from "../net/plots";
-import { houseUrlForTier, loadModel, TIER_HOUSE_HEIGHT } from "./models";
+import {
+  houseUrlForTier,
+  houseWorldSize,
+  loadHouseForTier,
+} from "./models";
+
+/** Scale a primitive fallback group so its height matches `worldHeight`. */
+function fitHeight(group: THREE.Group, worldHeight: number): void {
+  const box = new THREE.Box3().setFromObject(group);
+  const size = new THREE.Vector3();
+  box.getSize(size);
+  const s = worldHeight / Math.max(size.y, 1e-4);
+  group.scale.multiplyScalar(s);
+}
 
 /**
  * Plot houses. GLB buildings when loaded; primitive silhouettes until then
@@ -167,11 +180,12 @@ export function createHouses(): Houses {
       slot.construct = null;
       return;
     }
-    const build = BUILDERS[plot.tierIndex] ?? tent;
-    attach(slot, build(), plot, animate);
     const url = houseUrlForTier(plot.tierIndex, plotSalt(plot.id));
-    const height = TIER_HOUSE_HEIGHT[plot.tierIndex] ?? 1.2;
-    void loadModel(url, height)
+    // Primitive placeholder, sized to the incoming GLB so there is no pop.
+    const placeholder = (BUILDERS[plot.tierIndex] ?? tent)();
+    fitHeight(placeholder, houseWorldSize(url, plot.tierIndex).height);
+    attach(slot, placeholder, plot, animate);
+    void loadHouseForTier(url, plot.tierIndex)
       .then((mesh) => {
         if (slot.gen !== gen || slot.tierIndex !== plot.tierIndex) return;
         attach(slot, mesh, plot, false);
